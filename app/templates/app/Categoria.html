@@ -1,0 +1,87 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block titulo %}AresMovies{% endblock %}
+{% block estilo %}<link rel="stylesheet" href="{% static 'app/css/estiloCategories.css' %}">{% endblock %}
+
+{% block contenido %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="{% static 'app/img/logo1.png' %}"alt="">
+    <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        
+        {% if request.user.is_authenticated %}
+        <li>
+          <a class="nav-link" >	
+            {{ request.user.first_name }} {{ request.user.last_name }}
+            <span class="sr-only">(current)</span></a>
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'app:view_logout' %}">Logout <span class="sr-only">(current)</span></a>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'app:form_login' %}">Login <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'app:registro' %}">Register</a>
+        </li>
+        {% endif %}
+
+        {% if request.user.is_superuser %}
+          <li>
+            <a class="nav-link" href="{% url 'app:administradorConf' %}">Configuration</a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Category
+          </a>
+          <form action="{% url 'app:categoria' %}" method="post">
+            {% csrf_token %}
+          
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" name="r_categoria">
+              {% for c in lista_categorias %}
+              <button class="dropdown-item" name="categoria" value="{{c.id}}" type="submit" href= "{% url 'app:categoria' %}">{{ c.nombre }}</button>
+              {% endfor %}         
+            </div>
+          </form>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" action="{% url 'app:busqueda' %}" method="post">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="parametro">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><a>Search</a></button>
+      </form>
+    </div>
+  </nav>
+</header>
+<br>
+<div class="title"><h1>{{ titulo }}</h1></div>    
+<br>
+<section class="sect" class="body">
+  <div class="row row-cols-1 row-cols-md-3">
+    {% for c in peliculas %}
+    <div class="col mb-4">
+      <div class="card">
+        <img src="/static/app/img/{{c.id}}.jpg" class="card-img-top" alt="..." width="500px" height="600px">
+        <div class="card-body">
+          <h5 class="card-title">{{ c.titulo }}</h5>
+          <h5 class="card-title">Year: {{ c.anio }}</h5>
+          <form action="{% url 'app:ver_pelicula' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" name="pelicula" value="{{c.id}}" type="submit" href= "{% url 'app:ver_pelicula' %}">More about the movie</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

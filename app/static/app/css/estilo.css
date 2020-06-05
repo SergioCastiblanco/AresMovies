@@ -1,0 +1,23 @@
+html{
+    display: block;
+}
+body{
+    margin: auto;
+    background-color: darkslategray;
+}
+body h1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+}
+.rank{
+    border-radius: 4px;
+    margin: 0px 40px;
+}
+.rank h1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+}
+.billboard img{
+    text-align: center;
+    margin: auto;
+}

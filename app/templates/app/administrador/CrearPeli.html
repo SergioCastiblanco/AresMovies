@@ -1,0 +1,135 @@
+{% extends "app/base.html" %} 
+{% load static %} 
+{% block titulo %}AresMovies{% endblock %} 
+{% block estilo %}
+<link
+  rel="stylesheet"
+  href="{% static 'app/css/estiloConfig.css' %}"
+/>
+{% endblock %} 
+{% block contenido %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="{% static 'app/img/logo1.png' %}" alt="" />
+    <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li>
+          <a class="nav-link">
+            {{ request.user.first_name }} {{ request.user.last_name }}
+            <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'app:administradorConf' %}"
+            >Back<span class="sr-only">(current)</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<br>
+<h1>Create Movie</h1>
+<section class="cuadro">
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-8">
+        <div class="card-body">
+          <form action="{% url 'app:CreaMov' %}" method="post">
+            {% csrf_token %}
+            <h5 class="card-title">Title:</h5>
+            <div>
+              <input type="text" class="form-control" name="titulo" required />
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            <h5 class="card-title">Year:</h5>
+            <div>
+              <input required type="number" class="form-control" name="anio" />
+              <div class="invalid-feedback">
+                Valid first year is required.
+              </div>
+            </div>
+            <h5 class="card-title">Synopsis:</h5>
+            <div>
+              <textarea required name="sinopsis" cols="85" rows="3"> </textarea>
+              <div class="invalid-feedback">
+                Valid first synopsis is required.
+              </div>
+            </div>
+            <h5 class="card-title">Protagonist:</h5>
+            <div>
+              <input
+                required
+                type="text"
+                class="form-control"
+                name="actores"
+              />
+              <div class="invalid-feedback">
+                Valid first protagonist is required.
+              </div>
+            </div>
+
+            <h5 class="card-title">Duration: (minutes)</h5>
+            <div>
+              <input
+                required
+                type="number"
+                class="form-control"
+                name="duracion"
+              />
+              <div class="invalid-feedback">
+                Valid first duration is required.
+              </div>
+            </div>
+            <h5 class="card-title">Billboard</h5>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Billboard</label
+                >
+              </div>
+              <select
+                required
+                class="custom-select"
+                id="inputGroupSelect01"
+                name="enCartelera"
+              >
+                <option>Choose...</option>
+                <option value="">Not</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <br />
+            <button
+              type="submit"
+              class="btn btn-secondary"
+            >
+              Create Movie
+            </button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+    <p>Sergio Castiblanco - Sebastian Sanabria</p>
+</footer>
+{% endblock %}
+

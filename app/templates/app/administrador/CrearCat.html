@@ -1,0 +1,53 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block titulo %}AresMovies{% endblock %}
+{% block estilo %}<link rel="stylesheet" href="{% static 'app/css/estiloConfig.css' %}">{% endblock %}
+
+ 
+    {% block contenido %}
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <img src="{% static 'app/img/logo1.png' %}" alt="">
+        <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li>
+              <a class="nav-link" >	
+                  {{ request.user.first_name }} {{ request.user.last_name }} <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'app:administradorConf' %}">Back <span class="sr-only">(current)</span></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+<br><br><br>
+<div class="ingCategoria">
+    <form action="{% url 'app:CreaCat' %}" method="post"> 
+    {% csrf_token %}
+    <ul>
+        <li>
+            <span><h2>Category:</h2></span><br>
+      <input type="text" name="nombre" id="nombre" placeholder="Write New Category" size="50">
+
+        </li>
+        <br>
+        <br>
+        <li>
+            <button class="btn btn-secondary" type="submit">Create</button>
+
+        </li>
+    </ul>
+    </form>
+</div>
+<br><br><br>
+
+<footer>
+    <p>Sergio Castiblanco - Sebastian Sanabria</p>
+</footer>
+  {% endblock %}

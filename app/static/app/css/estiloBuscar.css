@@ -1,0 +1,13 @@
+html{
+    display: block;
+}
+body{
+    background-color: darkslategrey;
+}
+.tabla{
+    
+    margin: 20px 200px;
+}
+.tabla table{
+    text-align: center;
+}

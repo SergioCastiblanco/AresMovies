@@ -1,0 +1,94 @@
+{% extends "app/base.html" %} {% load static %} 
+{% block titulo %}AresMovies{% endblock %} 
+{% block estilo %}<link
+  rel="stylesheet"
+  href="{% static 'app/css/estiloIng.css' %}"
+/>{% endblock %} 
+{% block contenido %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="{% static 'app/img/logo1.png' %}" alt="" />
+    <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'app:index' %}">Back<span class="sr-only">(current)</span></a>
+       </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'app:registro' %}">Register</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="text-center mb-4">
+  <img
+    class="mb-4"
+    src="/img/descarga-ares-gratis.png"
+    alt=""
+    width=""
+    height=""
+  />
+  <h1 class="h3 mb-3 font-weight-normal">AresMovies</h1>
+</div>
+<form action="{% url 'app:autenticar' %}" method="post">
+  {% csrf_token %}
+  <div class="margen">
+    <div class="form-label-group">
+      <input
+        type="text"
+        name="username"
+        class="form-control"
+        placeholder="Username"
+        required
+        autofocus
+      />
+      <label for="inputUsername"><h6>Username</h6></label>
+    </div>
+
+    <div class="form-label-group">
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        placeholder="Password"
+        required
+      />
+      <label for="inputPassword"><h6>Password</h6></label>
+    </div>
+    <h5>Choose the type of user</h5>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01"
+          >Type of user</label
+        >
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" name="is_superuser">
+        <option value="">User</option>
+        <option value="1">Administrator</option>
+      </select>
+    </div>
+    <br /><br />
+    <div class="checkbox mb-3">
+      <label> <input type="checkbox" value="remember-me" /> Remember me </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
+      Sign in
+    </button>
+  </div>
+</form>
+<p class="mt-5 mb-3 text-muted text-center">&copy; 2017-2019</p>
+
+{% endblock %}

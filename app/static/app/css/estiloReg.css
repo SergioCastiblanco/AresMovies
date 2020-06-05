@@ -1,0 +1,11 @@
+html{
+    display: block;
+}
+body{
+    margin: auto;
+    background-color: darkslategray;
+}
+.sectionData{
+    
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

@@ -1,0 +1,42 @@
+html{
+    display: block;
+}
+body{
+    margin: auto;
+    background-color: darkslategrey;
+}
+body h1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+}
+.cuadro{
+    margin: 20px 100px;
+}
+.crearp{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: auto;
+}
+.crearp li{
+    list-style: none;
+}
+.listap{
+margin: 0px 50px;
+}
+.listap h2{
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.ingCategoria{
+    margin: 0px 50px;
+}
+.ingCategoria li{
+    display: inline-block;
+    list-style: none;
+    
+}
+.ingCategoria table{
+    text-align: center;
+}
+footer p{
+    text-align: center;
+}

@@ -1,0 +1,348 @@
+{% extends "app/base.html" %} {% load static %} 
+{% block titulo %}AresMovies{% endblock %} 
+{% block estilo %}
+<link
+  rel="stylesheet"
+  href="{% static 'app/css/estiloPelis.css' %}"
+/>
+{% endblock %}
+{% block contenido %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img src="{% static 'app/img/logo1.png' %}" alt="" />
+    <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        {% if request.user.is_authenticated %}
+        <li>
+          <a class="nav-link">
+            {{ request.user.first_name }} {{ request.user.last_name }}
+            <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'app:view_logout' %}"
+            >Logout <span class="sr-only">(current)</span></a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'app:form_login' %}"
+            >Login <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'app:registro' %}">Register</a>
+        </li>
+        {% endif %} {% if request.user.is_superuser %}
+        <li>
+          <a class="nav-link" href="{% url 'app:administradorConf' %}"
+            >Configuration</a
+          >
+        </li>
+        {% endif %}
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Category
+          </a>
+          <form action="{% url 'app:categoria' %}" method="post">
+            {% csrf_token %}
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdown"
+              name="r_categoria"
+            >
+              {% for c in lista_categorias %}
+              <button
+                class="dropdown-item"
+                name="categoria"
+                value="{{c.id}}"
+                type="submit"
+                href="{% url 'app:categoria' %}"
+              >
+                {{ c.nombre }}
+              </button>
+              {% endfor %}
+            </div>
+          </form>
+        </li>
+      </ul>
+      <form
+        class="form-inline my-2 my-lg-0"
+        action="{% url 'app:busqueda' %}"
+        method="post"
+      >
+        {% csrf_token %}
+        <input
+          class="form-control mr-sm-2"
+          type="text"
+          placeholder="Search"
+          aria-label="Search"
+          name="parametro"
+        />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          <a>Search</a>
+        </button>
+      </form>
+    </div>
+  </nav>
+</header>
+<br />
+<section class="cuadro">
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img
+          src="/static/app/img/{{pelicula.id}}.jpg"
+          class="card-img"
+          alt="..."
+          height="600px"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title">{{ pelicula.titulo }}</h3>
+          <h5 class="card-title">Categories:</h5>
+          {% for a in categorias_pelicula %}
+          <p class="card-text">{{ a }}</p>
+          {% endfor %}
+          <h5 class="card-title">Score: {{ promedio }}</h5>
+          <h5 class="card-title">Age: {{ pelicula.anio }}</h5>
+          <h5 class="card-title">Synopsis:</h5>
+          <p class="card-text">
+            {{ pelicula.sinopsis }}
+          </p>
+          <h5 class="card-title">Protagonist:</h5>
+          <p class="card-text">
+            {{ pelicula.actores }}
+          </p>
+          <h5 class="card-title">Is in theaters:</h5>
+          <p class="card-text">{{ pelicula.enCartelera }}</p>
+          <h5 class="card-title">Duration</h5>
+          <p class="card-text">{{ pelicula.duracion }} Minutes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if request.user.is_authenticated %}
+<section class="cuadro">
+  <h3>Rate the movie</h3>
+  <p>¿Did you like the movie?... ¿what is your rating?</p>
+  <form action="{% url 'app:califica_peli' %}" method="post">
+    {% csrf_token %}
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="1">1
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="2">2
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="3">3
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="4">4
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="5">5
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="6">6
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="7">7
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="8">8
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="9">9
+      </label>
+      <label class="btn btn-warning">
+        <input type="radio" name="options" value="10">10
+      </label>
+    </div>
+    <button type="submit" name="peli_id" value="{{pelicula.id}}" class="btn btn-dark">¡Qualify!</button>
+  </form>
+</section>
+{% endif %}
+
+<section class="cuadro">
+  <h3>Comments</h3>
+  {% if request.user.is_authenticated %}
+  <h6>Add Comment</h6>
+
+  <form action="{% url 'app:comentar' %}" method="post">
+    {% csrf_token %}
+    <input type="text" size="70px" name="comment" />
+    <button type="submit" name="peli_id" value="{{pelicula.id}}" class="btn btn-secondary">
+      Share Comment
+    </button>
+  </form>
+
+  <br />
+  {% endif %}
+  <table class="table table-sm table-dark">
+    <thead>
+      <tr>
+        {% if request.user.is_superuser %}
+        <th scope="col">Comment ID</th>
+        {% endif %}
+        <th scope="col">User</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Date</th>
+        {% if request.user.is_superuser %}
+        <th scope="col">State</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in comentarios %}
+      <tr>
+        {% if request.user.is_superuser %}
+        <td>{{ c.id }}</td>
+        {% endif %}
+        {% if c.activo %}
+        <td>{{ c.usuario_id }}</td>
+        <td>{{ c.texto }}</td>
+        <td>{{ c.fechaHora }}</td>
+        {% endif %}
+        {% if request.user.is_superuser %}
+        <td>{{ c.activo }}</td>
+        {% endif %}
+        
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if request.user.is_superuser %}
+  <h6>Change comment status</h6>
+  <form action="{% url 'app:cambiar_est_com' %}" method="post">
+    {% csrf_token %}
+    <input type="int" name="com_id" placeholder="Comment ID" />
+    <br /><br />
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect01">Status</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect01" name="cambio">
+        <option value="">Inactive</option>
+        <option value="1">Active</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-secondary">Change</button>
+  </form>
+  {% endif %}
+</section>
+<br>
+{% if request.user.is_superuser %}
+<section class="cuadro">
+  <h3>Edit Movie</h3>
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-8">
+        <div class="card-body">
+          <form action="{% url 'app:edit_peli' %}" method="post">
+            {% csrf_token %}
+            <h5 class="card-title">Title:</h5>
+            <div>
+              <input type="text" class="form-control" name="title" required/>
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            <h5 class="card-title">Year:</h5>
+            <div>
+              <input required type="number" class="form-control" name="year"/>
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            <h5 class="card-title">Synopsis:</h5>
+            <div>
+              <textarea required name="synopsis" cols="85" rows="3">
+              </textarea>
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            <h5 class="card-title">Protagonist:</h5>
+            <div>
+              <input required type="text" class="form-control" name="protagonist"
+              />
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            
+            <h5 class="card-title">Duration: (minutes)</h5>
+            <div>
+              <input required type="number"  class="form-control" name="duration"/>
+              <div class="invalid-feedback">
+                Valid first title is required.
+              </div>
+            </div>
+            <h5 class="card-title">Billboard</h5>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Billboard</label>
+              </div>
+              <select required class="custom-select" id="inputGroupSelect01" name="billboard">
+                <option>Choose...</option>
+                <option value="">Not</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+            <br />
+              <button type="submit" class="btn btn-secondary" name="peli_id" value="{{pelicula.id}}">
+              Edit Movie
+              </button>
+          </form>
+          <br><br>
+          <h5 class="card-title">Add to category</h5>
+          <form action="{% url 'app:agrega_categoria' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Categories</label>
+              </div>
+              <select required class="custom-select" id="inputGroupSelect01" name="categoria">
+                <option value="">Choose...</option>{% for c in lista_categorias %}
+                  <option name="categoria" value="{{c.id}}">{{ c.nombre }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary" name="peli_id" value="{{pelicula.id}}">
+              Add to category
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block titulo %}AresMovies{% endblock %}
+{% block estilo %}<link rel="stylesheet" href="{% static 'app/css/estiloConfig.css' %}">{% endblock %}
+
+ 
+    {% block contenido %}
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <img src="{% static 'app/img/logo1.png' %}" alt="">
+        <a class="navbar-brand" href="{% url 'app:index' %}">AresMovies</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li>
+              <a class="nav-link" >	
+                {{ request.user.first_name }} {{ request.user.last_name }}
+                <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'app:index' %}">Back <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'app:form_admin' %}">CreateAdmin</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</header>
+<br>
+<h1>Configuration</h1>
+    <br>
+<section class="listap">
+    <h2>Movie List</h2>
+    <table class="table table-striped table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Year</th>
+            <th scope="col">Synopsis</th>
+            <th scope="col">Protagonists</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Billboard</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in lista_peliculas %}
+          <tr>
+            <th>{{ t.titulo }}</th>
+            <td>{{ t.anio }}</td>
+            <td>{{ t.sinopsis}}</td>
+            <td>{{ t.actores }}</td>
+            <td>{{ t.duracion }}</td>
+            <td>{{ t.enCartelera }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-dark"><a class="navbar-brand" href="{% url 'app:form_crea_peliculas' %}">Create a new Movie</a></button>
+</section>
+
+<br><br><br>
+<section class="ingCategoria">
+  <table class="table table-striped table-dark" >
+    <thead>
+      <tr>
+        <th scope="col"><h2>Categories</h2></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in lista_categorias %}
+      <tr>
+        <th>{{ c.nombre }}</th>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+  
+  <button type="button" class="btn btn-dark"><a class="navbar-brand" href="{% url 'app:form_crea_categoria' %}">Create a new Category</a></button>   
+</section>
+<br><br>
+<footer>
+  <p>Sergio Castiblanco - Sebastian Sanabria</p>
+</footer>
+{% endblock %}
